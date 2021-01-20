@@ -1,0 +1,56 @@
+<mat-toolbar>
+    <span>Edit Card</span>
+    <span class="fill-remaining-space"></span>
+    <button mat-stroked-button  (click)="onClose()">
+        <mat-icon>clear</mat-icon>
+    </button>
+</mat-toolbar>
+
+<form class="normal-form">
+    <mat-grid-list cols="1" rowHeight="300px">
+        <mat-grid-tile>
+            <div class="controlles-container">
+                <mat-form-field>
+                    <input matInput name="name" placeholder="Name">
+                    <mat-error>Required field.</mat-error>
+                </mat-form-field><br>
+                <mat-form-field>
+                    <input matInput name="description" type="text" placeholder="Description">
+                    <mat-error>Required field.</mat-error>
+                </mat-form-field><br>
+                <mat-form-field>
+                    <input matInput name="comment" placeholder="Comment">
+                    <mat-error>Required field.</mat-error>
+                </mat-form-field><br>
+                <mat-form-field>
+                    <input matInput name="hireDate" [matDatepicker]="picker" placeholder="Hire Date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error>Required field.</mat-error>
+                </mat-form-field><br><br>
+                <button mat-stroked-button color="primary" type="submit">
+                    Submit 
+                </button>
+            </div>
+            <div class="button-row">
+                <!-- <button mat-raised-button color="primary" type="submit" 
+                    [disabled]="name.invalid || username.invalid || email.invalid || location.invalid 
+                    || hireDate.invalid || severity.invalid || status.invalid || description.invalid" 
+                    (click)="updatePearson()">
+                    Submit 
+                </button> -->
+                <!-- <button mat-raised-button color="primary" type="submit">
+                Submit 
+            </button> -->
+                <!-- <button mat-raised-button color="warn" (click)="onClear()">Clear</button> -->
+            </div>
+        </mat-grid-tile>
+        <!-- <mat-grid-tile>
+            <div class="controlles-container">
+
+
+
+            </div>
+        </mat-grid-tile> -->
+    </mat-grid-list>
+</form>

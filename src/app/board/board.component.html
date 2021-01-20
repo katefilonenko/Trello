@@ -24,9 +24,11 @@
     </mat-drawer-content>
   </mat-drawer-container> -->
 
-<mat-sidenav-container fullscreen>
-    <mat-sidenav #sidenav opened mode="side" position="start">
+<!-- <mat-sidenav-container fullscreen>
+    <mat-sidenav #sidenav mode="side" position="start">
         <h1 class="app-name has-gradient-text">Boards</h1>
+        <h2 class="board-name">{{ board.name }}</h2>
+        <h2 class="board-name">{{ board1.name }}</h2>
     </mat-sidenav>
     <mat-sidenav-content>
         <mat-toolbar color="primary">
@@ -62,43 +64,64 @@
         </div>
 
     </mat-sidenav-content>
-</mat-sidenav-container>
+</mat-sidenav-container> -->
 
-<!-- <div class="root">
-    <div class="navbar has-background-dark">
+<div class="root">
+    <!-- <div class="navbar has-background-dark">
         <div class="navbar-brand">
             <div class="navbar-item">
                 <h1 class="app-name has-gradient-text" style="color: #DADADA;">Trello</h1>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="board">
 
         <div class="board-bar">
-            <p class="board-name">{{ board.name }}</p>
+            <p class="board-name" *ngIf="boards">{{ boards.name }}</p>
         </div>
+
+        <button mat-button color="primary" routerLink="/allboards" style="margin-top: 10px;">
+            Back to Boards List
+        </button>
 
         <div class="board-wrapper">
 
             <div class="board-columns" cdkDropListGroup>
 
-                <div class="board-column"  *ngFor="let column of board.columns">
+                <div class="board-column"  *ngFor = "let column of columns">
                     <div class="column-title">
-                        {{ column.name }}
+                        {{column.name}}
                     </div>
                     <div class="tasks-container"
                         cdkDropList
                         [cdkDropListData]="column.tasks"
                         (cdkDropListDropped)="drop($event)">
-                        <div class="task" *ngFor="let item of column.tasks" cdkDrag>
-                            {{item}}
+                        <div class="task" cdkDrag *ngFor = "let task of column.tasks">
+                            {{task.name}}
+
+                            <div class="icon-buttons">
+                                <button mat-icon-button  (click)="onEdit(task)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                            </div>
                         </div>
+
+                        <button mat-button color="primary">Add a new card</button>
+                                     
                     </div>
-                </div>                
+                </div>    
+                
+                
+                
+                <div class="board-column">
+                    <button mat-button color="primary">Add a new column</button>
+                </div> 
+
             </div>
         </div>
 
     </div>
 
-</div> -->
+</div>
+

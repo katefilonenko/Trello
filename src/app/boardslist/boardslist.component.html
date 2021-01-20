@@ -1,0 +1,13 @@
+<h2 align="center">Choose any Board you want to work with</h2>
+
+<div class="grid grid-pad" style="float: center">
+    <button mat-raised-button class="col-1-4" *ngFor="let board of boards"
+    (click)="onSelect(board)">
+          {{board.name}}
+    </button>
+</div>
+
+<button mat-raised-button (click)="onCreate()">
+    <mat-icon>add</mat-icon>
+    Add a new board
+</button>
