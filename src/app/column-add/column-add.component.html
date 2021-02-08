@@ -1,0 +1,27 @@
+<mat-toolbar  style="background-color: white;">
+    <span>Add Column</span>
+    <span class="fill-remaining-space"></span>
+    <button mat-icon-button color="warn"  (click)="onClose()">
+        <mat-icon>clear</mat-icon>
+    </button>
+</mat-toolbar>
+
+<form class="normal-form" [formGroup]="myForm" novalidate (ngSubmit)="submit()">
+    <mat-grid-list cols="1" rowHeight="300px">
+        <mat-grid-tile>
+            <div class="controlles-container">
+                <mat-form-field>
+                    <input matInput type="text" name="name" formControlName="name"
+                    #columnName placeholder="Name" required>
+                    <mat-error>Required field.</mat-error>
+                </mat-form-field><br>
+                <button mat-flat-button color="primary" type="submit" 
+                (click)="addColumn(columnName.value)" [disabled]="myForm.invalid">
+                    Submit 
+                </button>
+            </div>
+            <div class="button-row">
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</form>

@@ -1,13 +1,35 @@
+<!-- <div *ngIf="loaderService.isLoading | async" class="loader-container">
+    <mat-progress-spinner mode="indeterminate" style="top: 50%; left: 50%;"></mat-progress-spinner>
+</div> -->
+
 <h2 align="center">Choose any Board you want to work with</h2>
 
-<div class="grid grid-pad" style="float: center">
+<!-- <div class="grid grid-pad" style="float: center">
     <button mat-raised-button class="col-1-4" *ngFor="let board of boards"
     (click)="onSelect(board)">
           {{board.name}}
+          <button mat-icon-button (click)="deleteBoard(board)">
+            <mat-icon>delete</mat-icon>
+        </button>
     </button>
-</div>
+</div> -->
 
-<button mat-raised-button (click)="onCreate()">
+<ul class="heroes">
+    <li *ngFor="let board of boards" >
+        <a routerLink="/allboards/{{board._id}}">
+            {{board.name}}
+        </a>
+        
+        <button mat-icon-button (click)="deleteBoard(board)">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button (click)="updateBoard(board)">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </li>
+</ul>
+
+<button mat-stroked-button style="margin-left: 10px;" color="primary" (click)="onCreate()">
     <mat-icon>add</mat-icon>
     Add a new board
 </button>

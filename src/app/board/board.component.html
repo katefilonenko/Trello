@@ -66,6 +66,10 @@
     </mat-sidenav-content>
 </mat-sidenav-container> -->
 
+<!-- <div *ngIf="loaderService.isLoading | async" class="loader-container">
+    <mat-progress-spinner mode="indeterminate" style="top: 50%; left: 50%;"></mat-progress-spinner>
+</div> -->
+
 <div class="root">
     <!-- <div class="navbar has-background-dark">
         <div class="navbar-brand">
@@ -78,7 +82,7 @@
     <div class="board">
 
         <div class="board-bar">
-            <p class="board-name" *ngIf="boards">{{ boards.name }}</p>
+            <p class="board-name" *ngIf="board">{{ board.name }}</p>
         </div>
 
         <button mat-button color="primary" routerLink="/allboards" style="margin-top: 10px;">
@@ -92,6 +96,13 @@
                 <div class="board-column"  *ngFor = "let column of columns">
                     <div class="column-title">
                         {{column.name}}
+                        <button mat-button color="primary" (click)="onEditColumn(column)">
+                            <!-- <mat-icon>edit</mat-icon> -->
+                            Edit column
+                        </button>
+                        <button mat-icon-button (click)="deleteColumn(column)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
                     </div>
                     <div class="tasks-container"
                         cdkDropList
@@ -101,21 +112,28 @@
                             {{task.name}}
 
                             <div class="icon-buttons">
-                                <button mat-icon-button  (click)="onEdit(task)">
+                                <button mat-icon-button  (click)="onEditCard(task)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
                             </div>
                         </div>
 
-                        <button mat-button color="primary">Add a new card</button>
+                        <button mat-button color="primary" (click)="onCreateCard()">Add a new card</button>
                                      
                     </div>
                 </div>    
                 
                 
-                
+                <!-- <div class="board-column">
+                    <label>New Column
+                      <input matInput #columnName />
+                    </label>
+                    <button mat-button (click)="CreateColumn(columnName.value); columnName.value=''">
+                      add
+                    </button>
+                </div> -->
                 <div class="board-column">
-                    <button mat-button color="primary">Add a new column</button>
+                    <button mat-button color="primary" (click)="onCreateColumn()">Add a new column</button>
                 </div> 
 
             </div>

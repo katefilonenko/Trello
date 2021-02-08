@@ -4,7 +4,7 @@ export interface Boards {
     columns: [
         {
             id: number,
-            name: string,
+            colname: string,
             tasks: [
                 {
                     id: number,

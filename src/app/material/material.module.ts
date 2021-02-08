@@ -22,7 +22,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSidenavModule } from '@angular/material/sidenav';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const MaterialComponents = [
   MatIconModule,
@@ -48,7 +49,9 @@ const MaterialComponents = [
   MatDividerModule,
   MatListModule,
   DragDropModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatProgressSpinnerModule,
+  MatDialogModule
 ]
 
 @NgModule({

@@ -1,3 +1,8 @@
-export class Column {
-    constructor(public name: string, public tasks: string[]) {}
+export interface Columns {
+    
+        
+            id: number,
+            colname: string
+        
+
 }

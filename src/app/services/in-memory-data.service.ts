@@ -128,3 +128,44 @@ export class InMemoryDataService implements InMemoryDbService{
     return {boards};
   }
 }
+
+
+// {  
+//   "id": 4,
+//   "name": "Board",
+//       "columns": [
+//         {
+//           "id": 1,
+//           "name": "Ideas",
+//           "tasks": [
+//             {
+//               "id": 1,
+//               "name": "Some random idea"
+//             },
+//             {
+//               "id": 2,
+//               "name": "This is another random idea"
+//             },{
+//               "id": 3,
+//               "name": "build an awesome application"
+//             }
+//           ]
+//         },
+//         {
+//           "id": 2,
+//           "name": "Research",
+//           "tasks": [
+//             {
+//               "id": 1,
+//               "name": "Lorem ipsum"
+//             },
+//             {
+//               "id": 2,
+//               "name": "foo"
+//             },{
+//               "id": 3,
+//               "name": "This was in the Research column"
+//             }
+//           ]
+//         }
+// }]

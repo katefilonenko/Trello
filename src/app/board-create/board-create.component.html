@@ -1,7 +1,43 @@
-<mat-toolbar>
+<mat-toolbar style="background-color: white;">
     <span>Add Board</span>
     <span class="fill-remaining-space"></span>
-    <button mat-stroked-button  (click)="onClose()">
+    <button mat-icon-button color="warn" (click)="onClose()">
         <mat-icon>clear</mat-icon>
     </button>
 </mat-toolbar>
+
+<form class="normal-form" [formGroup]="myForm" novalidate (ngSubmit)="submit()">
+    <mat-grid-list cols="1" rowHeight="300px">
+        <mat-grid-tile>
+            <div class="controlles-container">
+                <input type="hidden">
+                <mat-form-field>
+                    <!-- <input matInput name="name" #pearsonName placeholder="Name" [(ngModel)]="pearson.name" #name="ngModel" required> -->
+                    <input matInput name="name" #boardName placeholder="Name" formControlName="name" required>
+                    <mat-error>Required field.</mat-error>
+                    <!-- <div class="alert alert-danger"
+                            *ngIf="myForm.controls['name'].invalid && myForm.controls['name'].touched">
+                            Не указано имя
+                    </div> -->
+                </mat-form-field><br>
+                <div class="button-row">
+                    <button mat-flat-button color="primary" type="submit" [disabled]="myForm.invalid"
+                        (click)="addBoard(boardName.value)">
+                        Submit
+                    </button>
+                    <!-- <button mat-raised-button color="primary" type="submit" 
+                        [disabled]="name.invalid || username.invalid || email.invalid || location.invalid 
+                        || hireDate.invalid || severity.invalid || status.invalid || description.invalid" 
+                        (click)="addPearson(pearsonName.value, pearsonUsername.value, pearsonEmail.value, pearsonLocation.value, pearsonHireDate.value, pearsonSeverity.value, pearsonStatus.value, pearsonDescription.value, pearsonComment.value)">
+                        Submit 
+                    </button> -->
+                    <!-- <button mat-raised-button color="primary" type="submit" 
+                    (click)="addPearson(pearsonName.value, pearsonUsername.value, pearsonEmail.value, pearsonLocation.value, pearsonHireDate.value, pearsonSeverity.value, pearsonStatus.value, pearsonDescription.value, pearsonComment.value)">
+                    Submit 
+                </button> -->
+                    <!-- <button mat-raised-button color="warn" (click)="onClear()">Clear</button> -->
+                </div>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</form>
