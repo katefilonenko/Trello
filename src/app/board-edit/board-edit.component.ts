@@ -13,13 +13,15 @@ import { BoardsService } from '../services/boards.service';
 })
 export class BoardEditComponent implements OnInit {
 
+  Name: string;
+
   myForm: FormGroup = new FormGroup({
     "name": new FormControl("", Validators.required)
   });
 
-  submit() {
-    console.log(this.myForm);
-  }
+  // submit() {
+  //   console.log(this.myForm);
+  // }
 
   constructor(
     public dialogRef: MatDialogRef<BoardEditComponent>,
@@ -32,6 +34,7 @@ export class BoardEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.board = this.data;
+    // console.log(this.board.name);
   }
 
   onClose() {
@@ -43,19 +46,26 @@ export class BoardEditComponent implements OnInit {
   }
 
   editError(){
-    this.toastr.error('Not Updated', 'Major Error');
+    this.toastr.error('Name must be unique', 'Major Error');
   }
 
-  updateBoard(){
-    this.boardsService.findAndUpdateBoard(this.board._id, this.board)
+  updateBoard(name){
+    // console.log(name);
+    if(this.board.name == name){
+      this.onClose();
+    }
+    else{
+      this.boardsService.findAndUpdateBoard(this.board._id, {name} as Boards)
     .subscribe(board => {
-      console.log(this.board._id);
-      console.log(this.board)
+      console.log(this.board._id);      
+      console.log(this.board);
       this.onClose();
       this.editSuccess();
     }, err => {
       this.editError();
     })
+    }
+    
   }
 
 }

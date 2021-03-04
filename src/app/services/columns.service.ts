@@ -11,28 +11,29 @@ export class ColumnsService {
     private http: HttpClient,
   ) { }
 
-  private columnsUrl = 'http://localhost:7070/columns'
+  private columnsUrl = 'http://localhost:7070/columns2'
 
   getColumns(){
     return this.http.get(this.columnsUrl);
   }
 
-  getColumn(id){
-    const url = `${this.columnsUrl}/${id}`;
+  getColumn(bid, cid){
+    const url = `${this.columnsUrl}/${bid}/${cid}`;
     return this.http.get(url);
   }
 
-  addColumn(data){
-    return this.http.post(this.columnsUrl, data);
+  addColumn(id, data){
+    const url = `${this.columnsUrl}/${id}`;
+    return this.http.post(url, data);
   }
 
-  deleteColumn(id){
-    const url = `${this.columnsUrl}/${id}`;
+  deleteColumn(bid, cid){
+    const url = `${this.columnsUrl}/${bid}/${cid}`;
     return this.http.delete(url);
   }
 
-  updateColumn(id, data){
-    const url = `${this.columnsUrl}/${id}`;
+  updateColumn(bid, cid, data){
+    const url = `${this.columnsUrl}/${bid}/${cid}`;
     return this.http.put(url, data);
   }
 
@@ -42,6 +43,6 @@ export class ColumnsService {
 
   populateForm(column){
     this.myForm.patchValue(column);
-    console.log(column)
+    // console.log(column)
   }
 }

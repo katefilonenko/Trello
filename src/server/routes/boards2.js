@@ -1,91 +1,92 @@
 const express = require('express');
 const router = express.Router();
-// const mongoose = require('mongoose');
-
 const Boards = require('../models/board2');
 
-////////////////--------------BOARDS--------------////////////////
+const {
+  boardCreate,
+} = require("./constboards");
 
+//получить все доски
 router.get('/', async (req, res) => {
-    try {
-        const boards = await Boards.find();
-        res.json(boards);
-    } catch {
-        res.json({ message: err });
-    }
+  try {
+    const boards = await Boards.find();
+    res.json(boards);
+  } catch {
+    res.json({ message: err });
+  }
 })
 
-
+//получить доску по id
 router.get('/:boardId', async (req, res, next) => {
-  try{
+  try {
     const id = req.params.boardId;
     const board = await Boards.findById(id);
     res.send(board);
-  }catch{
+  } catch {
     res.json({ message: err });
   }
 
 });
 
-
-router.post('/', (req, res) => {
-  const board = new Boards({
-    // _id: new mongoose.Types.ObjectId(),
-    id: req.body.id,
-    name: req.body.name,
-    columns: req.body.columns
-  });
-
-  board.save()
-    .then(data => {
-      res.json(data);
-    })
-    .catch(err => {
-      res.json({ message: err })
-    })
-})
-
+//добавить доску
 // router.post('/', (req, res) => {
-//   Columns.findById(req.body.columnId)
-//   .then(columns => {
-//     if(!columns){
-//       return res.status(404).json({
-//         message:'Column not found'
-//       })
-//     }
-//     const board = new Boards({
-//       _id: new mongoose.Types.ObjectId(),
-//       id: req.body.id,
-//       name: req.body.name,
-//       columns: req.body.columnId
+//   const board = new Boards({
+//     id: req.body.id,
+//     name: req.body.name,
+//     columns: req.body.columns,
+//     tasks: req.body.tasks
+//   });
+
+//   board.save()
+//     .then(data => {
+//       res.json(data);
 //     })
-//     return board
-//     .save()
-//   })
-//   .then(data => {
-//     res.json(data);
-//   })
-//   .catch(err => {
-//     res.json({ message: err })
-//   })
+//     .catch(err => {
+//       res.json({ message: err })
+//     })
 // })
 
-router.put('/:id', (req, res) => {
-  const boardDetails = {};
-  if (req.body.name) boardDetails.name = req.body.name;
-  Boards.findByIdAndUpdate(
-    { _id: req.params.id },
-    { $set: boardDetails },
-    function (err, doc) {
-      console.log(doc);
-    }
-  )
-    .then(board => {
-      res.json(board)
-    })
-    .catch(err => console.log(err));
+router.post('/', (req, res) => {
+  boardCreate(req.body, "user", res);
 })
 
+// изменить доску по id
+router.put('/:boardId', async (req, res) => {
+  try {
+    let nameNotTaken = await validateName(req.body.name);
+        if (!nameNotTaken) {
+            return res.status(401).send('Name is already taken.')
+        }else{
+          const board = await Boards.findOneAndUpdate(
+            {
+              '_id': req.params.boardId,
+              // 'name': { $ne: req.body.name }
+            },
+            { $set: { 'name': req.body.name } },
+            function (err, doc) {
+              console.log(doc);
+              // if (doc == null) {
+              //   return res.status(401).send('Name is already taken.')
+              // }
+              // else {
+              //   console.log('dskjtanherk');
+              // }
+            }
+          )
+          res.send(board);
+        }
+  } catch {
+    res.json({ message: err });
+  }
+})
+
+const validateName = async name => {
+  let user = await Boards.findOne({ name });
+  console.log(user);
+  return user ? false : true;
+};
+
+//изменить доску по id (исходная)
 // router.put('/:boardId', async (req, res) => {
 //   try {
 //     console.log(req.body)
@@ -100,7 +101,7 @@ router.put('/:id', (req, res) => {
 //   }
 // });
 
-
+//удалить доску по id
 router.delete('/:boardId', async (req, res) => {
   try {
     const id = req.params.boardId;

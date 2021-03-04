@@ -10,6 +10,8 @@ mongoose.connect(
     () => console.log('CONNECTED TO DB')
 )
 
+const api = require('./routes/api');
+
 const boards = require('./routes/boards');
 const columns = require('./routes/columns');
 const tasks = require('./routes/tasks');
@@ -17,6 +19,7 @@ const tasks = require('./routes/tasks');
 const boards2 = require('./routes/boards2');
 const columns2 = require('./routes/columns2');
 const tasks2 = require('./routes/tasks2');
+const replaceTask = require('./routes/replaceCard');
 // const PORT = 4000;
 const app = express();
 
@@ -29,13 +32,15 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.json());
 app.use(cors(corsOptions)); 
 
+app.use('/api', api);
 app.use('/boards', boards);
 app.use('/columns', columns);
 app.use('/tasks', tasks);
 
 app.use('/boards2', boards2);
 app.use('/columns2', columns2);
-// app.use('/tasks2', tasks2);
+app.use('/tasks2', tasks2);
+app.use('/replaceTask', replaceTask);
 
 const PORT = process.env.PORT || 7070;
 app.listen(PORT, () => {

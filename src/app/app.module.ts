@@ -20,6 +20,7 @@ import { CardEditComponent } from './card-edit/card-edit.component';
 import { BoardEditComponent } from './board-edit/board-edit.component';
 import { InterceptorService } from './laoder/interceptor.service';
 import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dialog.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dial
     CardEditComponent,
     BoardEditComponent,
     MatConfirmDialogComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

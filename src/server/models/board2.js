@@ -10,7 +10,10 @@ const boardSchema = new Schema({
         name: String,
         tasks: [{
             id: Number,
-            name: String
+            name: String,
+            description: String,
+            date: Date,
+            comment: String
         }]
     }]
 })

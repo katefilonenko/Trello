@@ -1,7 +1,13 @@
 <mat-toolbar>
     <span>Trello</span>
-    <a class="nav-link" routerLink="/main" style="cursor: pointer; margin-left: 20px;">Main</a>
-    <a class="nav-link" routerLink="/allboards" style="cursor: pointer; margin-left: 20px;">Boards</a>
+    <button mat-button color="primary" class="nav-link" routerLink="/main" style="cursor: pointer; margin-left: 20px;"
+        *ngIf="authService.loggedIn()">Main</button>
+    <button mat-button color="primary" class="nav-link" routerLink="/allboards"
+        style="cursor: pointer; margin-left: 20px;" *ngIf="authService.loggedIn()">Boards</button>
     <span class="example-spacer"></span>
+    <button mat-button color="primary" class="nav-link" routerLink="/login" *ngIf="!authService.loggedIn()"
+        style="cursor: pointer;" routerLinkActive="active">Login</button>
+    <button mat-button color="primary" class="nav-link" routerLink="/login" style="cursor: pointer;"
+        *ngIf="authService.loggedIn()" (click)="authService.logoutUser()">Logout</button>
 </mat-toolbar>
 <router-outlet></router-outlet>

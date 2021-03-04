@@ -1,8 +1,4 @@
 export interface Columns {
-    
-        
-            id: number,
-            colname: string
-        
-
+    id: number,
+    name: string
 }

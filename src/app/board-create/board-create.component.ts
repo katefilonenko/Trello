@@ -37,7 +37,7 @@ export class BoardCreateComponent implements OnInit {
   }
 
   createError(){
-    this.toastr.error('Not Created', 'Major Error');
+    this.toastr.error('Name must be unique', 'Major Error');
   }
 
   onClose() {

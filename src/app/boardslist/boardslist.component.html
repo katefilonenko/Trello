@@ -14,7 +14,29 @@
     </button>
 </div> -->
 
+<div id="search-component">
+    <h4><label for="search-box">Board Search</label></h4>
+  
+    <input #searchBox id="search-box" (input)="search(searchBox.value)" />
+  
+    <ul class="search-result">
+      <li *ngFor="let board of boards$ | async" >
+        <a routerLink="/allboards/{{board._id}}">
+          {{board.name}}
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
 <ul class="heroes">
+
+    
+
+    <!-- <mat-form-field style=" margin-top: 20px; margin-left: 20px;" [style.width.px]=327>
+        <input matInput class="search" (keyup)="applyFilter($event.target.value)" placeholder="Search" #input>
+    </mat-form-field> -->
+
     <li *ngFor="let board of boards" >
         <a routerLink="/allboards/{{board._id}}">
             {{board.name}}

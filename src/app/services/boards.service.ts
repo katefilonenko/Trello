@@ -5,6 +5,7 @@ import { Boards } from '../models/boards';
 import * as _ from 'lodash';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -65,12 +66,39 @@ export class BoardsService {
     return this.http.delete(url);
   }
 
+  searchBoards(term: string): Observable<Boards[]>{
+    if(!term.trim()){
+      return of([]);
+    }
+    return this.http.get<Boards[]>(`${this.boardsUrl}/name=${term}`)
+    .pipe(
+      tap(x => x.length ?
+        console.log(`found heroes matching "${term}"`) :
+        console.log(`no heroes matching "${term}"`)),
+     catchError(this.handleError<Boards[]>('searchBoards', []))
+    )
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+  
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+  
+      // TODO: better job of transforming error for user consumption
+      console.log(`${operation} failed: ${error.message}`);
+  
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
   myForm: FormGroup = new FormGroup({
     "name": new FormControl("", Validators.required)
   });
 
   populateForm(board){
     this.myForm.patchValue(board);
-    console.log(board)
+    // console.log(board)
   }
 }

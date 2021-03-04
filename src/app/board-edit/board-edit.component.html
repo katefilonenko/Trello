@@ -6,25 +6,28 @@
     </button>
 </mat-toolbar>
 
-<form class="normal-form" [formGroup]="boardsService.myForm" novalidate (ngSubmit)="submit()">
-    <mat-grid-list cols="1" rowHeight="300px">
+<form class="normal-form" [formGroup]="boardsService.myForm" novalidate>
+    <mat-grid-list cols="1" rowHeight="100px">
         <mat-grid-tile>
             <div class="controlles-container">
-                <input type="hidden">
+                
                 <mat-form-field>
-                    <!-- <input matInput name="name" #pearsonName placeholder="Name" [(ngModel)]="pearson.name" #name="ngModel" required> -->
-                    <input matInput name="name" #boardName placeholder="Name" formControlName="name" required>
-                    <mat-error>Required field.</mat-error>
-                    <!-- <div class="alert alert-danger"
-                            *ngIf="myForm.controls['name'].invalid && myForm.controls['name'].touched">
-                            Не указано имя
-                    </div> -->
+                    <input matInput name="name" #boardName pattern="^[A-ZА-ЯЁ]{1}[a-zа-яё\s]+$"
+                    placeholder="Name" formControlName="name" required>
+                    <mat-error>Required field. Ex. My board</mat-error>
+
+                    <!-- <input matInput name="name" #boardName pattern="^[A-ZА-ЯЁ]{1}[a-zа-яё\s]+$"
+                    placeholder="Name" required>{{board.name}}
+                    <mat-error>Required field.</mat-error> -->
+                    
                 </mat-form-field><br>
+
                 <div class="button-row">
                     <button mat-flat-button color="primary" type="submit" [disabled]="boardsService.myForm.invalid"
-                        (click)="updateBoard()">
+                        (click)="updateBoard(boardName.value)">
                         Submit
                     </button>
+
                     <!-- <button mat-raised-button color="primary" type="submit" 
                         [disabled]="name.invalid || username.invalid || email.invalid || location.invalid 
                         || hireDate.invalid || severity.invalid || status.invalid || description.invalid" 

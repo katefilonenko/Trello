@@ -32,9 +32,11 @@ export class ColumnAddComponent implements OnInit {
     @Inject (MAT_DIALOG_DATA) public data: Boards
   ) { }
 
+  board:any;
   ngOnInit(): void {
     // this.getBoard(this.route.snapshot.paramMap.get('id'));
-    this.data = this.columns;
+    this.board = this.data;
+    console.log(this.board)
   }
 
 
@@ -47,26 +49,24 @@ export class ColumnAddComponent implements OnInit {
   }
 
   createError(){
-    this.toastr.error('Not Created', 'Major Error');
+    this.toastr.error('Name must be unique', 'Major Error');
   }
 
-  boards;
-  columns:any;
-  getBoard(id){
-    this.boardsService.getBoard(id)
-    .subscribe(boards => {
-      this.boards = boards;
-      this.columns = this.boards.columns;
-      console.log(boards);
-      console.log(this.columns);
-    })
-  }
+  // boards;
+  // columns:any;
+  // getBoard(id){
+  //   this.boardsService.getBoard(id)
+  //   .subscribe(boards => {
+  //     this.boards = boards;
+  //     this.columns = this.boards.columns;
+  //     console.log(boards);
+  //     console.log(this.columns);
+  //   })
+  // }
 
-  addColumn(colname){
-    this.columnsService.addColumn({colname} as Columns)
+  addColumn(name){
+    this.columnsService.addColumn(this.board._id, {name} as Columns)
     .subscribe(column => {
-      // console.log(column)
-      // this.columns.push(column);
       this.onClose();
       this.createSuccess();
     }, err => {

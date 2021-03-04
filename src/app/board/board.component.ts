@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-// import { Board } from '../models/board';
-// import { Column } from '../models/columns';
 import { BoardsService } from '../services/boards.service'
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -14,16 +12,8 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogService } from '../services/dialog.service';
 import { ColumnsService } from '../services/columns.service';
 import { Boards } from '../models/boards';
-
-// export interface Board {
-//   id: Number,
-//   name: String,
-//   columns: [{
-//       id: Number,
-//       name: String,
-//       tasks: Array<any>
-//   }]
-// }
+import { CardsService } from '../services/cards.service';
+import { Task } from '../models/tasks';
 
 
 @Component({
@@ -32,14 +22,16 @@ import { Boards } from '../models/boards';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
+ 
 
   constructor(
     private boardsService: BoardsService,
     private columnsService: ColumnsService,
+    private cardsService: CardsService,
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    public loaderService: LoaderService,
+    // public loaderService: LoaderService,
     private toastr: ToastrService,
     private dialogService: DialogService,
   ) { }
@@ -48,28 +40,47 @@ export class BoardComponent implements OnInit {
     this.getBoard(this.route.snapshot.paramMap.get('id'))
   }
 
+  refreshPage() {
+    window.location.reload();
+  }
+
   board: any;
   columns:Array<any>;
-  id_for_column:any;
+  length=[];
+  dlinaMassivov=[];
   getBoard(id){
     this.boardsService.getBoard(id)
     .subscribe(board => {
       this.board = board;
       this.columns = this.board.columns;
+      this.columns.forEach(element => {
+        this.length.push(element.tasks)
+        // console.log(this.length)
+      });
       console.log(board);
       console.log(this.columns);
+      this.length.forEach(element => {
+        // console.log(element.length);
+        this.dlinaMassivov.push(element.length);
+        
+      });
     })
+    // console.log(this.dlinaMassivov)
   }
 
-  onCreateCard(){
+  onCreateCard(column){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "420px";
-    dialogConfig.height = "420px"
+    dialogConfig.width = "460px";
+    dialogConfig.height = "420px";
+    dialogConfig.data = {
+      my_board : this.board,
+      my_column : column
+    };
     this.dialog.open(CardCreateComponent, dialogConfig);
     this.dialog.afterAllClosed.subscribe(res => {
-      
+      this.refreshPage()
     })
   }
 
@@ -77,12 +88,12 @@ export class BoardComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "420px";
-    dialogConfig.height = "420px";
-    dialogConfig.data = this.columns;
+    dialogConfig.width = "300px";
+    dialogConfig.height = "250px";
+    dialogConfig.data = this.board;
     this.dialog.open(ColumnAddComponent, dialogConfig);
     this.dialog.afterAllClosed.subscribe(res => {
-
+      this.refreshPage()
     })
   }
 
@@ -95,16 +106,15 @@ export class BoardComponent implements OnInit {
     this.toastr.error('Not deleted', 'Major Error');
   }
 
-  // column: any;
   deleteColumn(column){
     this.dialogService.openConfirmDialog('Are you sure to delete this record ?')
     .afterClosed().subscribe(res => {
       if (res) {
-        this.columnsService.deleteColumn(column._id)
-          .subscribe(t => {
+        this.columnsService.deleteColumn(this.board._id, column._id)
+          .subscribe(res => {
             console.log(column._id);
-            // this.getBoard(id);
             this.deleteSuccess();
+            this.refreshPage();
           }, err => {
             this.deleteError();
           })
@@ -112,27 +122,39 @@ export class BoardComponent implements OnInit {
     })
   }
 
-  onEditCard(board){
+  deleteCard(column, task){
+    this.dialogService.openConfirmDialog('Are you sure to delete this record ?')
+    .afterClosed().subscribe(res => {
+      if (res) {
+        this.cardsService.deleteCard(this.board._id, column._id, task._id)
+          .subscribe(res => {
+            console.log(column._id);
+            console.log(task._id);
+            this.deleteSuccess();
+            this.refreshPage();
+          }, err => {
+            this.deleteError();
+          })
+      }
+    })
+  }
+
+  onEditCard(column, task){
+    this.cardsService.populateForm(task);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "460px";
     dialogConfig.height = "420px";
+    dialogConfig.data = {
+      my_board: this.board,
+      my_column: column,
+      my_task: task
+    }
     this.dialog.open(CardEditComponent, dialogConfig);
-    // dialogConfig.data = this.columns;
-    console.log(dialogConfig.data);
-    // this.boardsService.getBoard(board.id)
-    // .subscribe(board => {
-    //   this.board = board;
-    //   this.dialog.open(BoardEditComponent, dialogConfig);
-    //   dialogConfig.data = board.columns;
-    //   // console.log(dialogConfig.data);
-    //   this.dialog.afterAllClosed.subscribe( res => {
-    //     console.log(board.columns);
-    //     console.log('The dialog was closed');
-    //     // this.getBoard(board.id);
-    //   })
-    // })
+    this.dialog.afterAllClosed.subscribe(res => {
+      this.refreshPage();
+    })
   }
 
   column:any;
@@ -141,30 +163,101 @@ export class BoardComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "460px";
-    dialogConfig.height = "420px";
-    // this.columnsService.getColumn(column._id)
-    // .subscribe(column=> { 
-    //   this.column = column;
-    //   dialogConfig.data = column;
-    //   console.log(dialogConfig.data);
-    //   this.dialog.open(ColumnEditComponent, dialogConfig);
-    // })
-    dialogConfig.data = column;
-    console.log(dialogConfig.data);
+    dialogConfig.width = "300px";
+    dialogConfig.height = "250px";
+    dialogConfig.data = {
+      my_board: this.board,
+      my_column: column
+    };
     this.dialog.open(ColumnEditComponent, dialogConfig);
-    
+    this.dialog.afterAllClosed.subscribe(res => {
+      this.refreshPage()
+      
+    })
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  index: any;
+  item:any;
+  tasksArray: any;
+  previousColumnTasks: any;
+  ID:any;
+  length2=[];
+  dlinaMassivov2=[];
+  my_element:any;
+  my_element2:any;
+  primer:any;
+  ID2:any;
+  drop(event: CdkDragDrop<string[]>, column) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+
+      this.columnsService.populateForm(column); //в какую колонку перемащаем
+      this.item = column.tasks[event.currentIndex] //какую карточку перемещаем
+      
+      this.columns.forEach(element => {
+        this.length2.push(element.tasks)
+      });
+      this.length2.forEach(element => {
+        this.dlinaMassivov2.push(element.length);
+        
+      });
+      console.log(this.dlinaMassivov);
+      console.log(this.dlinaMassivov2);
+      
+      this.previousColumnTasks = event.previousContainer.data; //массив с тасками из предыдущей колонки
+      // console.log(this.previousColumnTasks); 
+
+      if (this.previousColumnTasks == 0) {
+        for (let n = 0; n <= this.dlinaMassivov.length; n++) {
+          if (this.dlinaMassivov2[n] < this.dlinaMassivov[n]) {
+            this.primer = this.dlinaMassivov2.indexOf(this.dlinaMassivov2[n]);
+          };
+        }
+        this.ID2 = this.columns[this.primer]._id; //откуда перетащили
+        this.cardsService.deleteCard(this.board._id, this.ID2, this.item._id)
+        .subscribe(res => {
+          this.replaceCardByID2(column);
+        });
+      } else {
+        this.columns.forEach(element => {
+          console.log(element)
+          if (element.tasks[0].name == this.previousColumnTasks[0].name) {
+            this.ID = element._id; //откуда перетащили
+            this.cardsService.deleteCard(this.board._id, this.ID, this.item._id)
+            .subscribe(rer => {
+              this.replaceCardByID(column);
+            });
+          }      
+        });
+      }
     }
   }
 
+  replaceCardByID2(column){
+    var name = this.item.name;
+    var description = this.item.description;
+    var date = this.item.date;
+    var comment = this.item.comment;
+    this.cardsService.replaceCard(this.board._id, column._id, { name, description, date, comment } as Task)
+    .subscribe(res => {
+      this.refreshPage();
+    })
+
+  }
+
+  replaceCardByID(column){
+    var name = this.item.name;
+    var description = this.item.description;
+    var date = this.item.date;
+    var comment = this.item.comment;
+    this.cardsService.replaceCard(this.board._id, column._id, { name, description, date, comment } as Task)
+    .subscribe(res => {
+      this.refreshPage();
+    })
+  }
 }

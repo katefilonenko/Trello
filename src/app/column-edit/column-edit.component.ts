@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Boards } from '../models/boards';
 import { Columns } from '../models/columns';
@@ -25,10 +25,14 @@ export class ColumnEditComponent implements OnInit {
     public dialogRef: MatDialogRef<ColumnEditComponent>,
     private toastr: ToastrService,
     public columnsService: ColumnsService,
-    // public data: Boards
+    @Inject (MAT_DIALOG_DATA) public data: Boards
   ) { }
 
+  array:any;
   ngOnInit(): void {
+    this.array = this.data;
+    console.log(this.array);
+    console.log(this.array.my_board._id, this.array.my_column._id)
   }
 
   onClose() {
@@ -40,11 +44,27 @@ export class ColumnEditComponent implements OnInit {
   }
 
   editError(){
-    this.toastr.error('Not Updated', 'Major Error');
+    this.toastr.error('Name must be unique', 'Major Error');
   }
 
-  updateColumn(){
-    // this.columnsService.updateColumn()
+  updateColumn(name){
+    if(this.array.my_column.name == name){
+      this.onClose();
+    }
+    else{
+      console.log('hfhfhhf')
+      this.columnsService.updateColumn(
+        this.array.my_board._id, 
+        this.array.my_column._id, 
+        {name} as Columns
+      )
+      .subscribe(res => {
+        this.onClose();
+        this.editSuccess();
+      }, err => {
+        this.editError();
+      })
+    }
   }
 
 }
