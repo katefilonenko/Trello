@@ -7,6 +7,10 @@
     <span class="example-spacer"></span>
     <button mat-button color="primary" class="nav-link" routerLink="/login" *ngIf="!authService.loggedIn()"
         style="cursor: pointer;" routerLinkActive="active">Login</button>
+    <!-- <button mat-button color="primary" class="nav-link" routerLink="/register" *ngIf="!authService.loggedIn()"
+        style="cursor: pointer;" routerLinkActive="active">Register</button>
+    <button mat-button color="primary" class="nav-link" routerLink="/account" style="cursor: pointer;"
+        *ngIf="authService.loggedIn()">Account</button> -->
     <button mat-button color="primary" class="nav-link" routerLink="/login" style="cursor: pointer;"
         *ngIf="authService.loggedIn()" (click)="authService.logoutUser()">Logout</button>
 </mat-toolbar>

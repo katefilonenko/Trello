@@ -50,6 +50,8 @@ export class BoardEditComponent implements OnInit {
   }
 
   updateBoard(name){
+    name = name.trim();
+    if (!name) { return; }
     // console.log(name);
     if(this.board.name == name){
       this.onClose();

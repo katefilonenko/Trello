@@ -1,0 +1,36 @@
+<div class="center-content">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <!-- <div mat-card-avatar class="example-header-image"></div> -->
+        <mat-card-title>Register</mat-card-title>
+        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+      </mat-card-header>
+      <mat-card-content>
+  
+        <form class="form">
+  
+          <mat-form-field class="example-full-width">
+            <mat-label>Username</mat-label>
+            <input matInput type="text" placeholder="Ex. vanyauser" pattern="[A-Za-z]{6,}" name="username"
+              [(ngModel)]="registerUserData.username" #username="ngModel" required>
+            <mat-error>At least six english letters.</mat-error>
+            <!-- <mat-icon matSuffix>email</mat-icon> -->
+          </mat-form-field>
+  
+  
+          <mat-form-field class="example-full-width">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" [(ngModel)]="registerUserData.password" name="password" placeholder="Create your password"
+              pattern="[0-9]{10}" #password="ngModel" required password>
+            <mat-error>Password must contain 10 numbers.</mat-error>
+            <!-- <mat-icon matSuffix>vpn_key</mat-icon> -->
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button color="primary" type="button"
+          [disabled]="username.invalid || password.invalid"
+          (click)="registerUser()">Register</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>

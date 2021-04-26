@@ -21,6 +21,11 @@ import { BoardEditComponent } from './board-edit/board-edit.component';
 import { InterceptorService } from './laoder/interceptor.service';
 import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dialog.component';
 import { LoginComponent } from './login/login.component';
+import { SearchComponent } from './search/search.component';
+import { RegisterComponent } from './register/register.component';
+import { AccountComponent } from './account/account.component';
+import { EditInfoComponent } from './edit-info/edit-info.component';
+import { ChartModule } from 'angular-highcharts'
 
 
 @NgModule({
@@ -37,6 +42,10 @@ import { LoginComponent } from './login/login.component';
     BoardEditComponent,
     MatConfirmDialogComponent,
     LoginComponent,
+    SearchComponent,
+    RegisterComponent,
+    AccountComponent,
+    EditInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +57,7 @@ import { LoginComponent } from './login/login.component';
     //   InMemoryDataService, { dataEncapsulation: false }
     // ),
     ToastrModule.forRoot(),
+    ChartModule
   ],
   providers: [
     {

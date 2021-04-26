@@ -1,22 +1,21 @@
 <mat-toolbar  style="background-color: white;">
-    <span>Edit Column</span>
+    <span>Edit Info</span>
     <span class="fill-remaining-space"></span>
     <button mat-icon-button color="warn"  (click)="onClose()">
         <mat-icon>clear</mat-icon>
     </button>
 </mat-toolbar>
 
-<form class="normal-form" [formGroup]="columnsService.myForm" novalidate (ngSubmit)="submit()">
+<form class="normal-form" >
     <mat-grid-list cols="1" rowHeight="100px">
         <mat-grid-tile>
             <div class="controlles-container">
                 <mat-form-field>
-                    <input matInput type="text" name="name" pattern="^[A-ZА-ЯЁ]{1}[a-zа-яё\s]+$"
-                    formControlName="name" #columnName placeholder="Name" required>
-                    <mat-error>Required field. Ex. My column.</mat-error>
+                    <input matInput type="text" name="name" 
+                    formControlName="name" placeholder="Name" value="useruser" required>
+                    <mat-error>Required field.</mat-error>
                 </mat-form-field><br>
-                <button mat-flat-button color="primary" type="submit" 
-                (click)="updateColumn(columnName.value)" [disabled]="columnsService.myForm.invalid">
+                <button mat-flat-button color="primary" type="submit">
                     Submit 
                 </button>
             </div>

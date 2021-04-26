@@ -48,6 +48,8 @@ export class ColumnEditComponent implements OnInit {
   }
 
   updateColumn(name){
+    name = name.trim();
+    if (!name) { return; }
     if(this.array.my_column.name == name){
       this.onClose();
     }

@@ -65,6 +65,8 @@ export class ColumnAddComponent implements OnInit {
   // }
 
   addColumn(name){
+    name = name.trim();
+    if (!name) { return; }
     this.columnsService.addColumn(this.board._id, {name} as Columns)
     .subscribe(column => {
       this.onClose();

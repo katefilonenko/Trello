@@ -19,7 +19,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 export class BoardslistComponent implements OnInit {
 
   boards: any;
-  boards$: Observable<Boards[]>;
+  name: string;
   private searchTerms = new Subject<string>();
 
   constructor(
@@ -33,16 +33,6 @@ export class BoardslistComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBoards();
-    this.boards$ = this.searchTerms.pipe(
-      // wait 300ms after each keystroke before considering the term
-      debounceTime(300),
-
-      // ignore new term if same as previous term
-      distinctUntilChanged(),
-
-      // switch to new search observable each time the term changes
-      switchMap((term: string) => this.boardsService.searchBoards(term)),
-    );
   }
 
   getBoards(){
@@ -53,8 +43,19 @@ export class BoardslistComponent implements OnInit {
     });
   }
   
+  Search(){
+    if(this.name != ""){
+      this.boards = this.boards.filter(res => {
+        return res.name.toLocaleLowerCase().match(this.name.toLocaleLowerCase());
+      })
+    }else if (this.name == ""){
+      this.ngOnInit();
+    }
+ 
+  }
 
   applyFilter(filterValue: string) {
+    console.log('fghjk')
     this.boards.filter = filterValue.trim().toLowerCase();
   }
 
@@ -71,13 +72,6 @@ export class BoardslistComponent implements OnInit {
     this.dialog.open(BoardCreateComponent, dialogConfig);
     this.dialog.afterAllClosed.subscribe(res => {
       this.getBoards();
-      // console.log(this.people2.length);
-      // if(this.people2.length > this.lengthOfSecondArr){
-      //   console.log('erjb')
-      //   this.statistics();
-      //   this.usersLastMonth();
-      // }
-      // this.getInfoForSecondArr();
     })
   }
 
@@ -92,7 +86,6 @@ export class BoardslistComponent implements OnInit {
     .subscribe(board => {
       this.board = board;
       dialogConfig.data = board;
-      // console.log(board);
       this.dialog.open(BoardEditComponent, dialogConfig);
     })
     this.dialog.afterAllClosed.subscribe(res => {

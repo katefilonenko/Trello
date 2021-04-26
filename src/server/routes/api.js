@@ -19,6 +19,14 @@ const Admin = require('../models/admin');
 //         })
 // })
 
+const {
+    userRegister,
+  } = require("./auth");
+  
+  router.post('/register', (req, res) => {
+    userRegister(req.body, "user", res);
+  })
+
 router.post('/login', (req, res) => {
     let userData = req.body
     Admin.findOne({ username: userData.username }, (err, user) => {
@@ -38,5 +46,14 @@ router.post('/login', (req, res) => {
         }
     })
 })
+
+router.get('/:id', async (req, res) => {
+    try {
+      const user = await Admin.findById(req.params.id);
+      res.send(user);
+    } catch {
+      res.json({ message: err });
+    }
+});
 
 module.exports = router

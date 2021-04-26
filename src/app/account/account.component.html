@@ -1,0 +1,45 @@
+<!-- <div *ngIf="pearson"> -->
+    <mat-card style="width: 500px; height: fit-content; margin:auto">
+        <mat-card-content>
+            <div class="container">
+                <div class="row profile">
+                    <div class="col-md-3">
+                        <div class="profile-sidebar">
+                            <div class="profile-userpic">
+                                <form #imageForm = ngForm>
+                                    <img [src]="imgUrl" style="width:250px;height:200px">
+                                    <input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files)">
+                                </form>
+                            </div><br>
+                            
+                            <div class="profile-usertitle">
+                                <!-- <div class="profile-usertitle-name">
+                                    Name: 
+                                </div> -->
+                                <div class="profile-usertitle-job">
+                                    Username: useruser
+                                </div>
+                                <!-- <div class="profile-usertitle-job">
+                                    From: 
+                                </div>
+                                <div class="profile-usertitle-job">
+                                    Working in: 
+                                </div> -->
+                            </div>
+                            <br>
+                            <div class="profile-userbuttons">
+                                <button mat-flat-button color="primary" (click)="onEdit()">Edit info</button>
+                                <!-- <button mat-flat-button color="primary" (click)="getUs()">All users</button> -->
+                                <!-- <button mat-flat-button color="primary" (click)="getPe()">All people</button> -->
+                                <!-- <button type="button" class="btn btn-danger btn-sm">Message</button> -->
+                            </div>
+                            <div class="profile-usermenu">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+<!-- </div> -->

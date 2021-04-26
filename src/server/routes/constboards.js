@@ -1,4 +1,3 @@
-const express = require('express');
 const Boards = require('../models/board2');
 
 const boardCreate = async (boardDets, req, res) => {

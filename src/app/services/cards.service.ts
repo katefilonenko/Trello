@@ -20,6 +20,7 @@ export class CardsService {
 
   private tasksUrl = 'http://localhost:7070/tasks2';
   private replaceTaskUrl = 'http://localhost:7070/replaceTask';
+  private forCardUrl = 'http://localhost:7070/forCard';
 
   addCard(bid, cid, data){
     const url = `${this.tasksUrl}/${bid}/${cid}`;
@@ -29,6 +30,11 @@ export class CardsService {
   replaceCard(bid, cid, data){
     const url = `${this.replaceTaskUrl}/${bid}/${cid}`;
     return this.http.post(url, data);
+  }
+
+  forCard(bid, cid, tid, data){
+    const url = `${this.forCardUrl}/${bid}/${cid}/${tid}`;
+    return this.http.put(url, data);
   }
 
   deleteCard(bid, cid, tid){

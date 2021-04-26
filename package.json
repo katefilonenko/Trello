@@ -21,6 +21,8 @@
     "@angular/platform-browser": "~11.0.5",
     "@angular/platform-browser-dynamic": "~11.0.5",
     "@angular/router": "~11.0.5",
+    "@types/highcharts": "^7.0.0",
+    "angular-highcharts": "^11.3.1",
     "angular-in-memory-web-api": "^0.11.0",
     "body-parser": "^1.19.0",
     "bulma": "^0.9.1",

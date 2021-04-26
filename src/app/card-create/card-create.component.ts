@@ -7,6 +7,7 @@ import { BoardsService } from '../services/boards.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ColumnsService } from '../services/columns.service';
 import { CardsService } from '../services/cards.service';
+import { Date } from 'mongoose';
 
 @Component({
   selector: 'app-card-create',
@@ -25,6 +26,11 @@ export class CardCreateComponent implements OnInit {
   submit() {
     console.log(this.myForm);
   }
+
+  searchName: string;
+  searchDescription: string;
+  searchDate: string;
+  searchComment: string;
 
   minDate = new Date();
 
@@ -55,18 +61,17 @@ export class CardCreateComponent implements OnInit {
     this.toastr.error('Name must be unique', 'Major Error');
   }
 
-  addCard(name, description, date, comment) {
-    this.cardsService.addCard(
-      this.board.my_board._id,
-      this.board.my_column._id,
-      { name, description, date, comment } as Task
-    )
-      .subscribe(card => {
+  addCard(name: string, description: string, date: Date, comment: string) {
+    name = name.trim();
+    if (!name) { return; }
+    this.cardsService.addCard(this.board.my_board._id, this.board.my_column._id,{ name, description, date, comment } as Task)
+    .subscribe(card => {
         this.onClose(),
-          this.createSuccess();
+        this.createSuccess();
       }, err => {
         this.createError();
       })
+      console.log(date)
   }
 
 }

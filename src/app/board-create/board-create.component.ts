@@ -52,6 +52,8 @@ export class BoardCreateComponent implements OnInit {
   }
 
   addBoard(name: string){
+    name = name.trim();
+    if (!name) { return; }
     this.boardsService.addBoard({name} as Boards)
     .subscribe(board => {
       // this.boards.push(board);

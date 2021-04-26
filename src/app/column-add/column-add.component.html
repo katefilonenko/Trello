@@ -13,7 +13,7 @@
                 <mat-form-field>
                     <input matInput type="text" name="name" pattern="^[A-ZА-ЯЁ]{1}[a-zа-яё\s]+$"
                     formControlName="name" #columnName placeholder="Name" required>
-                    <mat-error>Required field.</mat-error>
+                    <mat-error>Required field. Ex. My column.</mat-error>
                 </mat-form-field><br>
                 <button mat-flat-button color="primary" type="submit" 
                 (click)="addColumn(columnName.value)" [disabled]="myForm.invalid">
